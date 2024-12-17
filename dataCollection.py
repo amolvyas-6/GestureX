@@ -10,19 +10,18 @@ while True:
     img = cv2.flip(img, 1)
 
     key = cv2.waitKey(1) & 0xFF
-    if key == ord('q'):
+    if key == ord('0'):
         break
     
     img = tracker.findHands(img)
 
-    if ord('0') <= key <= ord('9'):
-
+    if ord('A') <= key <= ord('Z'):
         print(key)
-        key -= ord('0')
+        key -= ord('A')
         landmarks = tracker.getPoints(img)
         processedLandmarks = tracker.normaliseLandmarks(landmarks)
 
-        with open('data/gestureData.csv', "a") as file:
+        with open('ASL_Dataset/sign_data.csv', "a") as file:
             writer = csv.writer(file)
             writer.writerow((key, *processedLandmarks))
     
