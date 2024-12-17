@@ -6,7 +6,7 @@ from collections import deque
 
 tracker = htm.HandTracker(maxHands=1, trackingConfidence=0.8, detectionConf=0.8)
 cap = cv2.VideoCapture(0)
-model = tf.keras.models.load_model("ASL_stuff\ASL_model.h5")
+model = tf.keras.models.load_model("models\ASL_model.h5")
 prev_frames_labels = deque()
 
 DELAY_IN_FRAMES = 30
