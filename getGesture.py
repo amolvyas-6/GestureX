@@ -1,11 +1,10 @@
-import cv2
-import HandTrackingModule as HTM
 import tensorflow as tf
 import numpy as np
 import csv
+import HandTrackingModule as htm
 from collections import deque
 
-tracker = HTM.HandTracker(maxHands=1)
+tracker = htm.HandTracker()
 model = tf.keras.models.load_model("D:\Sem 3\EL\data\MyModel2.h5")
 labels = []
 prev_frames_labels = deque()
@@ -29,30 +28,5 @@ def equal(q):
         prev = i
     return True
 
-def main():
-    cap = cv2.VideoCapture(0)
-    while True:
-        suc, img = cap.read()
-        img = cv2.flip(img, 1)
-
-        img = tracker.findHands(img)
-        landmarks = tracker.getPoints(img)
-        if len(landmarks) > 0:
-            input = np.array([tracker.normaliseLandmarks(landmarks)], dtype=float)
-            label = get_label(input)
-            prev_frames_labels.append(label)
-            if len(prev_frames_labels) == DELAY_IN_FRAMES:
-                if equal(prev_frames_labels):
-                    boundingBox = tracker.getBoundingBox(img, landmarks)
-                    img = tracker.putPredictedGestureOnScreen(img, label, boundingBox)
-                prev_frames_labels.popleft()
-
-        cv2.imshow("A", img)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    cap.release()
-    cv2.destroyAllWindows()
-
-if __name__ == '__main__':
-    main()
+def get_prediction(landmarks):
+    return get_label(np.array([tracker.normaliseLandmarks(landmarks)], dtype=float))

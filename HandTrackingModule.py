@@ -25,13 +25,16 @@ class HandTracker():
     
     def getPoints(self, img, handNo=0):
         landmarkList = []
+        hand_label = None
         if self.results.multi_hand_landmarks:
             myHand = self.results.multi_hand_landmarks[handNo]
+            handednes = self.results.multi_handedness[handNo]
+            hand_label = handednes.classification[0].label
             for id, landmark in enumerate(myHand.landmark):
-                    h, w, c = img.shape
-                    x, y = int(landmark.x * w), int(landmark.y * h)
-                    landmarkList.append((x, y))
-        return landmarkList
+                h, w, c = img.shape
+                x, y = int(landmark.x * w), int(landmark.y * h)
+                landmarkList.append((x, y))
+        return landmarkList, hand_label
 
     def numOfHands(self, img):
         if self.results.multi_hand_landmarks:
@@ -110,14 +113,14 @@ def main():
             continue
         img = cv2.flip(img, 1)
         img = tracker.findHands(img)
-        landmarkList = tracker.getPoints(img, handNo=0)
-        landmarkList2 = tracker.getPoints(img, handNo=1)
+        landmarkList, hand1_label = tracker.getPoints(img, handNo=0)
+        landmarkList2, hand2_label = tracker.getPoints(img, handNo=1)
 
         if len(landmarkList) > 0:
-            print("First Hand = ", landmarkList[1])
+            print("First Hand = ", hand1_label)
         
         if len(landmarkList2) > 0:
-            print("Second Hand = ", landmarkList2[1])
+            print("Second Hand = ", hand2_label)
         curTime = time.time()
         fps = 1 / (curTime - prevTime)
         prevTime = curTime

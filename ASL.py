@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from collections import deque
 
-tracker = htm.HandTracker(maxHands=1)
+tracker = htm.HandTracker(maxHands=1, trackingConfidence=0.8, detectionConf=0.8)
 cap = cv2.VideoCapture(0)
 model = tf.keras.models.load_model("ASL_stuff\ASL_model.h5")
 prev_frames_labels = deque()
@@ -29,9 +29,10 @@ while True:
     suc, img = cap.read()
     img = cv2.flip(img, 1)
 
-    img = tracker.findHands(img)
-    lndmrkPoints = tracker.getPoints(img)
-    if len(lndmrkPoints) > 0:
+    img = tracker.findHands(img, draw=True)
+    lndmrkPoints, hand_label = tracker.getPoints(img)
+
+    if len(lndmrkPoints) > 0 and hand_label == 'Right':
         norm_lndmrkPoints = tracker.normaliseLandmarks(lndmrkPoints)
         label = predict(np.array([norm_lndmrkPoints]))
         prev_frames_labels.append(label)

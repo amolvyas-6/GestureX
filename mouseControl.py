@@ -1,4 +1,3 @@
-import time
 import numpy as np
 import mediapipe as mp
 import HandTrackingModule as htm
@@ -15,7 +14,7 @@ wCap, hCap = 640, 480
 THRESHOLD = 30
 smoothening = 4
 xMousePrev, yMousePrev = 0, 0
-xMouseCur, yMouseCur = 0, 0
+#xMouseCur, yMouseCur = 0, 0
 
 while True:
     res, img = cap.read()

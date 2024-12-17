@@ -1,9 +1,7 @@
-import time
 import cv2
-import mediapipe as mp
 import HandTrackingModule as HTM
 import screen_brightness_control as sbc
-import math
+import getGesture as gg
 
 cap = cv2.VideoCapture(0)
 tracker = HTM.HandTracker(maxHands=2, detectionConf=0.7)
@@ -20,25 +18,45 @@ while True:
     img = tracker.findHands(img)
     landmarkPoints = []
     landmarkPoints2 = []
-
+    
     num_hands = tracker.numOfHands(img)
-    if num_hands == 1:
-        landmarkPoints = tracker.getPoints(img, handNo=0)
-    elif num_hands == 2:
-        landmarkPoints = tracker.getPoints(img, handNo=1)
-        landmarkPoints2 = tracker.getPoints(img, handNo=0)
 
-    if len(landmarkPoints2) > 0:
-        img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, landmarkPoints2), color=(0,0,255))
+    left = []
+    right = []
 
-    if len(landmarkPoints) > 0:
-        
-        img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, landmarkPoints))
-        x1, y1 = landmarkPoints[8]
-        x2, y2 = landmarkPoints[4]
-        length = math.sqrt(math.pow(x2-x1, 2) + math.pow(y2-y1, 2))
-        brightness = int((((length - minLen) * NewRange) / OldRange) + minBrightness)
-        sbc.set_brightness(brightness)
+    if num_hands > 0:
+        if num_hands == 1:
+            landmarkPoints, hand1_label = tracker.getPoints(img, handNo=0)
+            if hand1_label == 'Left':
+                left = landmarkPoints
+                right = []
+            else:
+                left = []
+                right = landmarkPoints
+
+        elif num_hands == 2:
+            landmarkPoints, hand1_label = tracker.getPoints(img, handNo=1)
+            landmarkPoints2, hand2_label = tracker.getPoints(img, handNo=0)
+            
+            if hand1_label == 'Left' and hand2_label == 'Right':
+                left = landmarkPoints
+                right = landmarkPoints2
+            else:
+                right = landmarkPoints
+                left = landmarkPoints2
+
+        if len(left) > 0:
+            img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, left), color=(0,0,255))
+            if gg.get_prediction(left) == 'Thumbs Up':
+                break
+
+        if len(right) > 0:
+            img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, right))
+            length = tracker.getLength(right[8], right[4])
+            brightness = (((length - minLen) * NewRange) / OldRange) + minBrightness
+            brightness = round(brightness / 20) * 20
+            brightness = max(0, min(100, round(brightness)))
+            sbc.set_brightness(brightness)
     
     cv2.imshow("Brightness Control", img)
             
