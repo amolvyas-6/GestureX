@@ -35,6 +35,15 @@ help_but.place(relx=1.0, rely=0.0, anchor="ne", x=-20, y=20)  # Move to top-righ
 
 #end of help button
 
+
+#making of ASl help button
+
+Asl_help = customtkinter.CTkButton(root, text="ASL Help",
+                                   fg_color='grey', text_color='black', height=36,
+                         width=100, font=('Segoe UI', 20),
+                         hover_color='light blue', corner_radius=10000, border_width=1)
+Asl_help.place(relx=0.9, rely=0.0, anchor="ne", x=-30, y=20) 
+
 #making Intro page
 greeting = ""
 def clear_all():
@@ -82,6 +91,9 @@ def listing(menu, labeling):
         labeling.configure(text = 'Allowed')
         my_progressbar.set(my_progressbar.get()+0.1)
         progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
+    if(len(lst) == 9):
+        Submit.place(relx=0.5, rely=0.9, anchor="center")
+
 #main page
 #gestures to select from
 gestures = ['absolute cinema',
@@ -180,6 +192,7 @@ option9_label.grid(row=8, column=0, padx=(10, 5), pady=10)
 options9.grid(row=8, column=1, padx=(5, 10), pady=10)
 option9_status_label.grid(row=8, column=2, padx=(5, 10), pady=10)
 
+
 #starting the progress bar
 
 frame = customtkinter.CTkFrame(root)
@@ -212,6 +225,76 @@ theme_change.place(relx=1.0, rely=1.0, anchor="se", x=-20, y=-20)
 
 
 #Submit button that actually maps keys to ML
- 
- 
+dict = {}
+def submit():
+    dict[options1.get()] = 'Display all apps'
+    dict[options2.get()] = 'Minimise all apps'
+    dict[options3.get()] = 'Left Arrow Key'
+    dict[options4.get()] = 'Right Arrow Key'
+    dict[options5.get()] = 'Play/Pause'
+    dict[options6.get()] = 'Switch App'
+    dict[options7.get()] = 'Maximise the current window'
+    dict[options8.get()] = 'To Minimise current Window'
+    dict[options9.get()] = 'To Close current app'
+
+Submit = customtkinter.CTkButton(root, text = "Submit", command = submit)
+Submit.place(relx=0.5, rely=0.9, anchor="center")
+Submit.place_forget()
+
+def Default():
+    global lst
+    lst = []
+    my_progressbar.set(1)
+    progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
+    Submit.place_forget()
+    options1.set('absolute cinema')
+    options2.set('Fist bumping Palm(konichiwa)')
+    options3.set('Three finger left hand swipe')
+    options4.set('Three finger right swipe hand')
+    options5.set('show full palm then make muthi')  
+    options6.set('Hand swipe')
+    options7.set('1 finger static')
+    options8.set('2 finger static')
+    options9.set('3 finger static')
+    option1_label.configure(text = "Default");
+    option2_label.configure(text = "Default");
+    option3_label.configure(text = "Default");
+    option4_label.configure(text = "Default");
+    option5_label.configure(text = "Default");
+    option6_label.configure(text = "Default");
+    option7_label.configure(text = "Default");
+    option8_label.configure(text = "Default");
+    option9_label.configure(text = "Default");
+    Submit.place(relx=0.5, rely=0.9, anchor="center")
+
+default = customtkinter.CTkButton(root, text = "Default", command = Default)
+default.place(relx=0.0, rely=1.0, anchor="sw", x=20, y=-20)
+
+def clear_all():
+    global dict
+    dict = {}
+    my_progressbar.set(0.1)
+    progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
+    Submit.place_forget()
+    options1.set('Please Select your gesture!')
+    options2.set('Please Select your gesture!')
+    options3.set('Please Select your gesture!')
+    options4.set('Please Select your gesture!')
+    options5.set('Please Select your gesture!')
+    options6.set('Please Select your gesture!')
+    options7.set('Please Select your gesture!')
+    options8.set('Please Select your gesture!')
+    options9.set('Please Select your gesture!')
+    option1_label.configure(text = "Choose:")
+    option2_label.configure(text = "Choose:")
+    option3_label.configure(text = "Choose:")
+    option4_label.configure(text = "Choose:")
+    option5_label.configure(text = "Choose:")
+    option6_label.configure(text = "Choose:")
+    option7_label.configure(text = "Choose:")
+    option8_label.configure(text = "Choose:")
+    option9_label.configure(text = "Choose:")
+
+Clear = customtkinter.CTkButton(root, text = "Clear", command = clear_all)
+Clear.place(relx=0.0, rely=1.0, anchor="sw", x=20, y=-60)
 root.mainloop()
