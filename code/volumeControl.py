@@ -3,6 +3,7 @@ import getGesture as gg
 import cv2
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 from comtypes import CLSCTX_ALL
+from collections import deque
 
 # Get the default audio device used for playback
 devices = AudioUtilities.GetSpeakers()
@@ -22,6 +23,8 @@ NewRange = (maxVol - minVol)
 
 volumePrev = 0
 smoothening = 5
+
+prev_gestures = deque()
 
 while True:
     success, img = cap.read()
@@ -59,7 +62,8 @@ while True:
 
         if len(left) > 0:
             img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, left), color=(0,0,255))
-            if gg.get_prediction(left) == 'Thumbs Up':
+            prev_gestures, gesture = gg.get_prediction(left, prev_gestures)
+            if len(gesture) > 0:
                 break
 
         if len(right) > 0:

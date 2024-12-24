@@ -2,6 +2,7 @@ import cv2
 import HandTrackingModule as HTM
 import screen_brightness_control as sbc
 import getGesture as gg
+from collections import deque
 
 cap = cv2.VideoCapture(0)
 tracker = HTM.HandTracker(maxHands=2, detectionConf=0.7)
@@ -10,6 +11,8 @@ maxLen, minLen = 200, 25
 maxBrightness, minBrightness = 100, 0
 OldRange = (maxLen - minLen)  
 NewRange = (maxBrightness - minBrightness) 
+
+prev_gestures = deque()
 
 while True:
     success, img = cap.read()
@@ -47,8 +50,10 @@ while True:
 
         if len(left) > 0:
             img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, left), color=(0,0,255))
-            if gg.get_prediction(left) == 'Thumbs Up':
-                break
+            prev_gestures, gesture = gg.get_prediction(left, prev_gestures)
+            if len(gesture) > 0:
+                if gesture == 'Thumbs Up':
+                    break
 
         if len(right) > 0:
             img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, right))

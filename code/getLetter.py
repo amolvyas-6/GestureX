@@ -5,20 +5,14 @@ import HandTrackingModule as htm
 from collections import deque
 
 tracker = htm.HandTracker()
-model = tf.keras.models.load_model("models\gesture_model.h5")
-labels = []
+model = tf.keras.models.load_model("models\ASL_model.h5")
 prev_frames_labels = deque()
 DELAY_IN_FRAMES = 30
-
-with open('data/gestureLabels.csv', 'r') as f:
-    reader = csv.reader(f)
-    for row in reader:
-        labels.append(row[0])
 
 def get_label(X):
     logits = model(X)
     prediction = tf.nn.softmax(logits)
-    return labels[np.argmax(prediction[0])]
+    return chr(np.argmax(prediction[0]) + ord('A'))
 
 def equal(q):
     prev = q[0]

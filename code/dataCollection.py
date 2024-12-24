@@ -18,13 +18,14 @@ while True:
     if ord('A') <= key <= ord('Z'):
         print(key)
         key -= ord('A')
-        landmarks = tracker.getPoints(img)
+        landmarks, hand_label = tracker.getPoints(img)
+        print(landmarks)
         processedLandmarks = tracker.normaliseLandmarks(landmarks)
 
         with open('data/sign_data.csv', "a") as file:
             writer = csv.writer(file)
             writer.writerow((key, *processedLandmarks))
-    
+            
     cv2.imshow("A", img)
 
 
