@@ -42,7 +42,7 @@ Asl_help = customtkinter.CTkButton(root, text="ASL Help",
                                    fg_color='grey', text_color='black', height=36,
                          width=100, font=('Segoe UI', 20),
                          hover_color='light blue', corner_radius=10000, border_width=1)
-Asl_help.place(relx=0.9, rely=0.0, anchor="ne", x=-30, y=20) 
+Asl_help.place(relx=0.0, rely=0.0, anchor="nw", x=20, y=20) 
 
 #making Intro page
 greeting = ""
@@ -273,6 +273,7 @@ default.place(relx=0.0, rely=1.0, anchor="sw", x=20, y=-20)
 def clear_all():
     global dict
     dict = {}
+    lst = []
     my_progressbar.set(0.1)
     progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
     Submit.place_forget()
