@@ -1,5 +1,4 @@
 import numpy as np
-import mediapipe as mp
 import HandTrackingModule as htm
 import cv2
 import pyautogui
@@ -88,3 +87,16 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
+
+
+def cursor_movement(img, right, tracker):
+    pyautogui.PAUSE = 0
+    pyautogui.FAILSAFE = False
+    wScreen, hScreen = pyautogui.size()
+    wCap, hCap = 640, 480
+
+    THRESHOLD = 30
+    smoothening = 4
+    xMousePrev, yMousePrev = 0, 0
+
+    

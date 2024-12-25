@@ -8,7 +8,7 @@ tracker = htm.HandTracker()
 model = tf.keras.models.load_model("models\gesture_model.h5")
 labels = []
 prev_frames_labels = deque()
-DELAY_IN_FRAMES = 30
+DELAY_IN_FRAMES = 10
 
 with open('data/gestureLabels.csv', 'r') as f:
     reader = csv.reader(f)

@@ -11,8 +11,7 @@ interface = devices.Activate(
     IAudioEndpointVolume._iid_, CLSCTX_ALL, None
 )
 volume_pycaw = interface.QueryInterface(IAudioEndpointVolume)
-
-
+'''
 cap = cv2.VideoCapture(0)
 tracker = htm.HandTracker()
 
@@ -84,5 +83,24 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
+'''
+def set_volume(img, right, tracker):
+    maxLen, minLen = 200, 25
+    maxVol, minVol = 100, 0
+    OldRange = (maxLen - minLen)  
+    NewRange = (maxVol - minVol)
 
+    volumePrev = 0
+    smoothening = 5
+    if len(right) > 0:
+        img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, right))
+        length = tracker.getLength(right[4], right[8])
+        volume = int((((length - minLen) * NewRange) / OldRange) + minVol)
 
+        volume = volumePrev + (volume - volumePrev) / smoothening
+        volume = max(0, min(100, volume))
+        volume_scaled = volume / 100
+        volume_pycaw.SetMasterVolumeLevelScalar(volume_scaled, None)
+        volumePrev = volume
+    
+    return img

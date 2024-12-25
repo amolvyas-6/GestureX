@@ -3,13 +3,15 @@ import HandTrackingModule as HTM
 import screen_brightness_control as sbc
 import getGesture as gg
 from collections import deque
+import subprocess
+import sys
 
-cap = cv2.VideoCapture(0)
+'''cap = cv2.VideoCapture(0)
 tracker = HTM.HandTracker(maxHands=2, detectionConf=0.7)
 
 maxLen, minLen = 200, 25
 maxBrightness, minBrightness = 100, 0
-OldRange = (maxLen - minLen)  
+OldRange = (maxLen - minLen)
 NewRange = (maxBrightness - minBrightness) 
 
 prev_gestures = deque()
@@ -54,6 +56,11 @@ while True:
             if len(gesture) > 0:
                 if gesture == 'Thumbs Up':
                     break
+                if gesture == 'One':
+                    cap.release()
+                    cv2.destroyAllWindows()
+                    subprocess.run([sys.executable, 'code/volumeControl.py'])
+                    sys.exit()
 
         if len(right) > 0:
             img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, right))
@@ -70,4 +77,18 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
+'''
+def set_brightness(img, right, tracker):
+    maxLen, minLen = 200, 25
+    maxBrightness, minBrightness = 100, 0
+    OldRange = (maxLen - minLen)
+    NewRange = (maxBrightness - minBrightness)
+    if len(right) > 0:
+        img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, right))
+        length = tracker.getLength(right[8], right[4])
+        brightness = (((length - minLen) * NewRange) / OldRange) + minBrightness
+        brightness = round(brightness / 20) * 20
+        brightness = max(0, min(100, round(brightness)))
+        sbc.set_brightness(brightness)
     
+    return img
