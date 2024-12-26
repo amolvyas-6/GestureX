@@ -9,7 +9,7 @@ import numpy as np
 
 cap = cv2.VideoCapture(0)
 tracker = htm.HandTracker(maxHands=2, detectionConf=0.7)
-MODE = 2
+MODE = 3
 
 # for mouse control
 pyautogui.PAUSE = 0
@@ -17,7 +17,7 @@ pyautogui.FAILSAFE = False
 wScreen, hScreen = pyautogui.size()
 wCap, hCap = 640, 480
 THRESHOLD = 30
-smoothening = 4
+smoothening = 7
 xMousePrev, yMousePrev = 0, 0
 
 prev_frames = deque()
@@ -69,7 +69,9 @@ while True:
             elif label == 'Four':
                 #img = cv2.putText(img, text='ASL', org = (20, 30), font = cv2.FONT_HERSHEY_COMPLEX, color = (0, 255, 0), thickness=2)
                 MODE = 4
-            
+    
+    if MODE == 1:
+        cv2.putText(img, 'NAVIGATION', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
     if MODE == 2:
         cv2.putText(img, 'BRIGHTNESS', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
         img = set_brightness(img, right, tracker)
