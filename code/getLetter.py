@@ -7,7 +7,7 @@ from collections import deque
 tracker = htm.HandTracker()
 model = tf.keras.models.load_model("models\ASL_model.h5")
 prev_frames_labels = deque()
-DELAY_IN_FRAMES = 30
+DELAY_IN_FRAMES = 20
 
 def get_label(X):
     logits = model(X)

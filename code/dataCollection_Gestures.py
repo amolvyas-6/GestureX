@@ -19,7 +19,7 @@ while True:
         print(key)
         key -= ord('0')
         landmarks, hand_label = tracker.getPoints(img)
-        print(landmarks)
+        #print(landmarks)
         processedLandmarks = tracker.normaliseLandmarks(landmarks)
 
         with open('data/gestureData.csv', "a") as file:

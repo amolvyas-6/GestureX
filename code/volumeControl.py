@@ -84,13 +84,12 @@ while True:
 cap.release()
 cv2.destroyAllWindows()
 '''
-def set_volume(img, right, tracker):
+def set_volume(img, right, tracker, volumePrev):
     maxLen, minLen = 200, 25
     maxVol, minVol = 100, 0
     OldRange = (maxLen - minLen)  
     NewRange = (maxVol - minVol)
 
-    volumePrev = 0
     smoothening = 5
     if len(right) > 0:
         img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, right))
@@ -103,4 +102,4 @@ def set_volume(img, right, tracker):
         volume_pycaw.SetMasterVolumeLevelScalar(volume_scaled, None)
         volumePrev = volume
     
-    return img
+    return img, volumePrev

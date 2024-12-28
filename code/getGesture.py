@@ -28,7 +28,7 @@ def equal(q):
         prev = i
     return True
 
-def get_prediction(landmarks, prev_frames):
+def get_prediction(landmarks, prev_frames, DELAY_IN_FRAMES=10):
     label = get_label(np.array([tracker.normaliseLandmarks(landmarks)], dtype=float))
     if len(prev_frames) < DELAY_IN_FRAMES:
         prev_frames.append(label)

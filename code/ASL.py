@@ -52,7 +52,8 @@ while True:
         if len(letter) > 0:
             if len(s) == 0 or s[-1] != letter:
                 s += letter
-            cv2.putText(img, s, (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
+    
+    cv2.putText(img, s, (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
     
     if len(left) > 0:
         norm_lndmrkPoints = tracker.normaliseLandmarks(left)

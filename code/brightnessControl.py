@@ -87,7 +87,7 @@ def set_brightness(img, right, tracker):
         img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, right))
         length = tracker.getLength(right[8], right[4])
         brightness = (((length - minLen) * NewRange) / OldRange) + minBrightness
-        brightness = round(brightness / 20) * 20
+        brightness = round(brightness)
         brightness = max(0, min(100, round(brightness)))
         sbc.set_brightness(brightness)
     
