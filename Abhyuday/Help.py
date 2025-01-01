@@ -23,23 +23,23 @@ VIDEOS = {
 
 IMAGES = {
     "sign_language": [
-        "path/to/sign_language/sign1.png",
-        "path/to/sign_language/sign2.png",
-        "path/to/sign_language/sign3.png",
-        "path/to/sign_language/sign4.png",
-        "path/to/sign_language/sign5.png",
-        "path/to/sign_language/sign6.png",
-        "path/to/sign_language/sign7.png",
-        "path/to/sign_language/sign8.png",
-        "path/to/sign_language/sign9.png",
-        "path/to/sign_language/sign10.png"
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\A.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\B.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\C.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\D.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\E.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\F.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\G.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\H.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\I.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\ASL\J.jpg"
     ],
     "modes": [
-        "path/to/modes/mode1.png",
-        "path/to/modes/mode2.png",
-        "path/to/modes/mode3.png",
-        "path/to/modes/mode4.png",
-        "path/to/modes/mode5.png"
+        "D:\VS Code\GestureX\Abhyuday\Help\Modes\1.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\Modes\2.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\Modes\3.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\Modes\4.jpg",
+        "D:\VS Code\GestureX\Abhyuday\Help\Modes\5.jpg"
     ]
 }
 
