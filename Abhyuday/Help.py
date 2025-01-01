@@ -6,40 +6,40 @@ from PIL import Image
 # File locations
 VIDEOS = {
     "gesture": {
-        "gesture1": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\1.mp4",
-        "gesture2": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\2.mp4",
-        "gesture3": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\3.mp4",
-        "gesture4": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\4.mp4",
-        "gesture5": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\5.mp4",
-        "gesture6": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\6.mp4",
-        "gesture7": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\7.mp4",
-        "gesture8": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\8.mp4",
-        "gesture9": "D:\VS Code\GestureX\Abhyuday\Help\Gestures\9.mp4"
+        "gesture1": r".\Abhyuday\Help\Gestures\1.mp4",
+        "gesture2": r".\Abhyuday\Help\Gestures\2.mp4",
+        "gesture3": r".\Abhyuday\Help\Gestures\3.mp4",
+        "gesture4": r".\Abhyuday\Help\Gestures\4.mp4",
+        "gesture5": r".\Abhyuday\Help\Gestures\5.mp4",
+        "gesture6": r".\Abhyuday\Help\Gestures\6.mp4",
+        "gesture7": r".\Abhyuday\Help\Gestures\7.mp4",
+        "gesture8": r".\Abhyuday\Help\Gestures\8.mp4",
+        "gesture9": r".\Abhyuday\Help\Gestures\9.mp4"
     },
-    "brightness": "D:\VS Code\GestureX\Abhyuday\Help\Brightness\1.mp4",
-    "volume": "D:\VS Code\GestureX\Abhyuday\Help\Audio\1.mp4",
-    "cursor": "D:\VS Code\GestureX\Abhyuday\Help\Cursor\1.mp4"
+    "brightness": r".\Abhyuday\Help\Brightness\1.mp4",
+    "volume": r".\Abhyuday\Help\Audio\1.mp4",
+    "cursor": r".\Abhyuday\Help\Cursor\1.mp4"
 }
 
 IMAGES = {
     "sign_language": [
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\A.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\B.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\C.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\D.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\E.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\F.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\G.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\H.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\I.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\ASL\J.jpg"
+        r".\Abhyuday\Help\ASL\A.jpg",
+        r".\Abhyuday\Help\ASL\B.jpg",
+        r".\Abhyuday\Help\ASL\C.jpg",
+        r".\Abhyuday\Help\ASL\D.jpg",
+        r".\Abhyuday\Help\ASL\E.jpg",
+        r".\Abhyuday\Help\ASL\F.jpg",
+        r".\Abhyuday\Help\ASL\G.jpg",
+        r".\Abhyuday\Help\ASL\H.jpg",
+        r".\Abhyuday\Help\ASL\I.jpg",
+        r".\Abhyuday\Help\ASL\J.jpg"
     ],
     "modes": [
-        "D:\VS Code\GestureX\Abhyuday\Help\Modes\1.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\Modes\2.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\Modes\3.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\Modes\4.jpg",
-        "D:\VS Code\GestureX\Abhyuday\Help\Modes\5.jpg"
+        r".\Abhyuday\Help\Modes\1.jpg",
+        r".\Abhyuday\Help\Modes\2.jpg",
+        r".\Abhyuday\Help\Modes\3.jpg",
+        r".\Abhyuday\Help\Modes\4.jpg",
+        r".\Abhyuday\Help\Modes\5.jpg"
     ]
 }
 
