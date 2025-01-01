@@ -46,7 +46,6 @@ rect_w, rect_h = 500, 400  # Width and height of the rectangle
 prev_frames_left = deque()
 prev_frames_right = deque()
 
-
 ############################################################## FUNCTION DEFINITIONS ############################################################################
 
 def is_hand_inside_rectangle(hand_landmarks, rect_x, rect_y, rect_w, rect_h):
@@ -63,22 +62,66 @@ def detect_swipe(prev_landmarks, curr_landmarks):
         return "right" if x_diff > 0 else "left"
     return None
 
-def switch_tab(direction):
-    if direction == "right":
-        pyautogui.hotkey('alt', 'tab')  # Switch to next tab
-    elif direction == "left":
-        pyautogui.hotkey('alt', 'shift', 'tab')  # Switch to previous tab
+def switch_tab_right():
+    pyautogui.hotkey('alt', 'tab')
+
+def switch_tab_left():
+    pyautogui.hotkey('alt', 'shift', 'tab')
 
 def play_pause():
     pyautogui.press('space')
 
-def arrow_key(direction):
-    if direction == "right":
-        pyautogui.press('right')
-    elif direction == "left":
-        pyautogui.press('left')
+def arrow_key_right():
+    pyautogui.press('right')
 
+def arrow_key_left():
+    pyautogui.press('left')
+
+def minimize_window():
+    pyautogui.hotkey('win', 'down')
+
+def close_window():
+    pyautogui.hotkey('alt', 'f4')
+
+def maximize_window():
+    pyautogui.hotkey('win', 'up')
+
+def display_all_apps():
+    pyautogui.hotkey('win', 'tab')
+
+def minimize_all_apps():
+    pyautogui.hotkey('win', 'd')
 ############################################################# END OF FUNCTION DEFINITIONS #######################################################################
+
+for gesture, action in dict.items():
+    print(gesture, action)
+
+    if action == 'Play/Pause':
+        dict[gesture] = play_pause
+    
+    elif action == 'Left Arrow Key':
+        dict[gesture] = arrow_key_left
+    
+    elif action == 'Right Arrow Key':
+        dict[gesture] = arrow_key_right
+    
+    elif action == 'Switch App':
+        dict[gesture] = switch_tab_right
+    
+    elif action == 'To Minimize the current window':
+        dict[gesture] = minimize_window
+    
+    elif action == 'To Close current app':
+        dict[gesture] = close_window
+    
+    elif action == 'Maximize the current window':
+        dict[gesture] = maximize_window
+
+    elif action == 'Display all apps':
+        dict[gesture] = display_all_apps
+    
+    elif action == 'Minimize all apps':
+        dict[gesture] = minimize_all_apps
 
 while True:
     success, img = cap.read()
@@ -144,18 +187,26 @@ while True:
                 if direction and current_time - last_swipe_time > DEBOUNCE_TIME:
                     if label == 'Three' or prev_gesture == 'Three':
                         print("3 finger " + direction + " swipe detected")
-                        arrow_key(direction)
+
+                        if direction == "right":
+                            dict['Three finger right swipe hand']()
+                        else:
+                            dict['Three finger left hand swipe']()
+
                         last_swipe_time = current_time
                     else:
                         print(f"Detected swipe: {direction}")
-                        switch_tab(direction)
+                        
+                        if direction == "left" or direction == "right":
+                            dict['Hand swipe']()
+
                         last_swipe_time = current_time
                     prev_right_lndmarks = []
                     continue
 
             if label == 'Fist' and prev_gesture == 'Five':
                 print("Play / Pause")
-                play_pause()
+                dict['show full palm then make muthi']()
 
             # Update previous landmarks
             prev_right_lndmarks = right
