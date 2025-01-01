@@ -8,6 +8,7 @@ from collections import deque
 import pyautogui
 import numpy as np
 import time
+from GUI import dict
 
 cap = cv2.VideoCapture(0)
 tracker = htm.HandTracker(maxHands=2, detectionConf=0.7)
@@ -29,8 +30,13 @@ volumePrev = 0
 text = ''
 prev_letters = deque()
 
-# for navigation
+# for gesture
 prev_right_lndmarks = []
+prev_gesture = ''
+SWIPE_THRESHOLD = 50
+DEBOUNCE_TIME = 1  # seconds
+last_swipe_time = 0
+
 
 # Define the rectangle's position and size
 rect_x, rect_y = 100, 40  # Top-left corner of the rectangle
@@ -40,50 +46,39 @@ rect_w, rect_h = 500, 400  # Width and height of the rectangle
 prev_frames_left = deque()
 prev_frames_right = deque()
 
+
+############################################################## FUNCTION DEFINITIONS ############################################################################
+
 def is_hand_inside_rectangle(hand_landmarks, rect_x, rect_y, rect_w, rect_h):
     for point in hand_landmarks:
         if not (rect_x <= point[0] <= rect_x + rect_w and rect_y <= point[1] <= rect_y + rect_h):
             return False
     return True
 
-def detect_swipe(prev_landmarks, current_landmarks, threshold_x=100, threshold_y=0):
-    wrist_prev = prev_landmarks[0]
-    wrist_curr = current_landmarks[0]
-    
-    index_prev = prev_landmarks[8]
-    index_curr = current_landmarks[8]
-    
-    # Calculate the horizontal movement of the wrist and index finger
-    x_move_curr = wrist_curr[0] - wrist_prev[0]
+def detect_swipe(prev_landmarks, curr_landmarks):
+    x_diff = curr_landmarks[8][0] - prev_landmarks[8][0]
+    y_diff = curr_landmarks[8][1] - prev_landmarks[8][1]
 
-    y_move_curr = wrist_curr[1] - wrist_prev[1]
-    
-    # If the difference in x-direction is significant, we assume a swipe
-    if abs(x_move_curr) > threshold_x:
-        if x_move_curr > 0:
-            return "right"  # Right swipe
-        elif x_move_curr < 0:
-            return "left"  # Left swipe
-    
-    # if abs(y_move_curr) > threshold_y:
-    #     if y_move_curr > 0:
-    #         return "down"  # Down swipe
-    #     elif y_move_curr < 0:
-    #         return "up" # Up swipe
-        
+    if abs(x_diff) > SWIPE_THRESHOLD and abs(y_diff) < SWIPE_THRESHOLD / 2:
+        return "right" if x_diff > 0 else "left"
     return None
 
-# Simulate tab switching
 def switch_tab(direction):
     if direction == "right":
         pyautogui.hotkey('alt', 'tab')  # Switch to next tab
     elif direction == "left":
         pyautogui.hotkey('alt', 'shift', 'tab')  # Switch to previous tab
-    
-    # elif direction == "up":
-    #     pyautogui.hotkey('win', 'up')  # Maximize window
-    # elif direction == "down":
-    #     pyautogui.hotkey('win', 'd')
+
+def play_pause():
+    pyautogui.press('space')
+
+def arrow_key(direction):
+    if direction == "right":
+        pyautogui.press('right')
+    elif direction == "left":
+        pyautogui.press('left')
+
+############################################################# END OF FUNCTION DEFINITIONS #######################################################################
 
 while True:
     success, img = cap.read()
@@ -123,7 +118,7 @@ while True:
 
     if len(left) > 0:
         img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, left), color=(0,0,255))
-        prev_frames_left, label = gg.get_prediction(left, prev_frames_left)
+        prev_frames_left, label = gg.get_prediction(left, prev_frames_left, DELAY_IN_FRAMES=40)
         if len(label) > 0:
             if label == 'One':
                 MODE = 1
@@ -135,39 +130,52 @@ while True:
                 MODE = 4
             elif label == 'Five':
                 MODE = 5
-
     # reset ASL text
     if MODE != 5:
         text = ''
     
     if MODE == 1:
-        cv2.putText(img, 'NAVIGATION', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
-        if len(right) > 0 and is_hand_inside_rectangle(right, rect_x, rect_y, rect_w, rect_h):
+        cv2.putText(img, 'GESTURE', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
+        if len(right) > 0: #and is_hand_inside_rectangle(right, rect_x, rect_y, rect_w, rect_h):
+            prev_frames_right, label = gg.get_prediction(right, prev_frames_right, DELAY_IN_FRAMES=1)
             if prev_right_lndmarks:
                 direction = detect_swipe(prev_right_lndmarks, right)
-                if direction:
-                    print(f"Detected swipe: {direction}")
-                    switch_tab(direction)
-                    time.sleep(1)
+                current_time = time.time()
+                if direction and current_time - last_swipe_time > DEBOUNCE_TIME:
+                    if label == 'Three' or prev_gesture == 'Three':
+                        print("3 finger " + direction + " swipe detected")
+                        arrow_key(direction)
+                        last_swipe_time = current_time
+                    else:
+                        print(f"Detected swipe: {direction}")
+                        switch_tab(direction)
+                        last_swipe_time = current_time
+                    prev_right_lndmarks = []
+                    continue
+
+            if label == 'Fist' and prev_gesture == 'Five':
+                print("Play / Pause")
+                play_pause()
 
             # Update previous landmarks
             prev_right_lndmarks = right
+            prev_gesture = label
 
 
 
     elif MODE == 2:
         cv2.putText(img, 'BRIGHTNESS', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
-        if is_hand_inside_rectangle(right, rect_x, rect_y, rect_w, rect_h):
+        if is_hand_inside_rectangle(right, rect_x - 50, rect_y - 50, rect_w - 50, rect_h - 50):
             img = set_brightness(img, right, tracker)
     
     
     
     elif MODE == 3:
         cv2.putText(img, 'VOLUME', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
-        if is_hand_inside_rectangle(right, rect_x, rect_y, rect_w, rect_h):
+        if is_hand_inside_rectangle(right, rect_x - 50, rect_y - 50, rect_w - 50, rect_h - 50):
             img, volumePrev = set_volume(img, right, tracker, volumePrev)
     
-    
+
     
     elif MODE == 4:
         cv2.putText(img, 'CURSOR', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
@@ -175,8 +183,8 @@ while True:
             fingersUp = tracker.fingersUp(right)
             if fingersUp[1] == 1 and fingersUp[2] == 0:
                 xFinger, yFinger = right[8]
-                xMouse = np.interp(xFinger, (rect_x, rect_x + rect_w), (0, wScreen))
-                yMouse = np.interp(yFinger, (rect_y, rect_y + rect_h), (0, hScreen))
+                xMouse = np.interp(xFinger, (rect_x + 50, rect_x + rect_w - 150), (0, wScreen))
+                yMouse = np.interp(yFinger, (rect_y + 50, rect_y + rect_h - 150), (0, hScreen))
 
                 # Apply smoothening
                 xMouse = xMousePrev + (xMouse - xMousePrev) / smoothening
@@ -202,8 +210,7 @@ while True:
                 if len(text) == 0 or text[-1] != letter:
                     text += letter
         
-        cv2.putText(img, text, (100, 120), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(255, 0, 0), thickness=2)
-
+        cv2.putText(img, text, (100, 120), cv2.FONT_HERSHEY_DUPLEX, 2, (255, 0, 0), 2)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
