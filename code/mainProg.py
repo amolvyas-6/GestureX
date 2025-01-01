@@ -108,19 +108,19 @@ for gesture, action in dict.items():
     elif action == 'Switch App':
         dict[gesture] = switch_tab_right
     
-    elif action == 'To Minimize the current window':
+    elif action == 'Minimize Window':
         dict[gesture] = minimize_window
     
-    elif action == 'To Close current app':
+    elif action == 'Close Window':
         dict[gesture] = close_window
     
-    elif action == 'Maximize the current window':
+    elif action == 'Maximize Window':
         dict[gesture] = maximize_window
 
-    elif action == 'Display all apps':
+    elif action == 'Display All Apps':
         dict[gesture] = display_all_apps
     
-    elif action == 'Minimize all apps':
+    elif action == 'Minimize All Apps':
         dict[gesture] = minimize_all_apps
 
 while True:
@@ -189,24 +189,31 @@ while True:
                         print("3 finger " + direction + " swipe detected")
 
                         if direction == "right":
-                            dict['Three finger right swipe hand']()
+                            dict['Three Finger Swipe Right']()
                         else:
-                            dict['Three finger left hand swipe']()
+                            dict['Three Finger Swipe Left']()
 
                         last_swipe_time = current_time
                     else:
                         print(f"Detected swipe: {direction}")
                         
                         if direction == "left" or direction == "right":
-                            dict['Hand swipe']()
+                            dict['Hand Swipe']()
 
                         last_swipe_time = current_time
                     prev_right_lndmarks = []
                     continue
 
             if label == 'Fist' and prev_gesture == 'Five':
-                print("Play / Pause")
-                dict['show full palm then make muthi']()
+                print("Make Fist")
+                dict['Make Fist']()
+            elif label == 'Three' and prev_gesture == 'Fist':
+                print("Three Finger Swipe Up")
+                dict['Three Finger Swipe Up']()
+            elif label == 'Two' and prev_gesture == 'Fist':
+                print("Two Finger Swipe Up")
+                dict['Two Finger Swipe Up']()
+                
 
             # Update previous landmarks
             prev_right_lndmarks = right

@@ -96,12 +96,12 @@ def listing(menu, labeling):
 
 #main page
 #gestures to select from
-gestures = ['absolute cinema',
-'Fist bumping Palm(konichiwa)',
-'Three finger left hand swipe',
-'Three finger right swipe hand',
-'show full palm then make muthi',
-'Hand swipe',
+gestures = ['Three Finger Swipe Up'
+'Two Finger Swipe Up',
+'Three Finger Swipe Left',
+'Three Finger Swipe Right',
+'Make Fist',
+'Hand Swipe',
 '1 finger static',
 '2 finger static',
 '3 finger static']
@@ -227,15 +227,15 @@ theme_change.place(relx=1.0, rely=1.0, anchor="se", x=-20, y=-20)
 #Submit button that actually maps keys to ML
 dict = {}
 def submit():
-    dict[options1.get()] = 'Display all apps'
-    dict[options2.get()] = 'Minimise all apps'
+    dict[options1.get()] = 'Display All Apps'
+    dict[options2.get()] = 'Minimise All Apps'
     dict[options3.get()] = 'Left Arrow Key'
     dict[options4.get()] = 'Right Arrow Key'
     dict[options5.get()] = 'Play/Pause'
     dict[options6.get()] = 'Switch App'
-    dict[options7.get()] = 'Maximise the current window'
-    dict[options8.get()] = 'To Minimise current Window'
-    dict[options9.get()] = 'To Close current app'
+    dict[options7.get()] = 'Maximize Window'
+    dict[options8.get()] = 'Minimize Window'
+    dict[options9.get()] = 'Close Window'
 
     #import mainProg
 
@@ -249,12 +249,12 @@ def Default():
     my_progressbar.set(1)
     progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
     Submit.place_forget()
-    options1.set('absolute cinema')
-    options2.set('Fist bumping Palm(konichiwa)')
-    options3.set('Three finger left hand swipe')
-    options4.set('Three finger right swipe hand')
-    options5.set('show full palm then make muthi')  
-    options6.set('Hand swipe')
+    options1.set('Three Finger Swipe Up')
+    options2.set('Two Finger Swipe Up')
+    options3.set('Three Finger Swipe Left')
+    options4.set('Three Finger Swipe Right')
+    options5.set('Make Fist')  
+    options6.set('Hand Swipe')
     options7.set('1 finger static')
     options8.set('2 finger static')
     options9.set('3 finger static')
