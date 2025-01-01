@@ -107,15 +107,6 @@ for gesture, action in dict.items():
     
     elif action == 'Switch App':
         dict[gesture] = switch_tab_right
-    
-    elif action == 'Minimize Window':
-        dict[gesture] = minimize_window
-    
-    elif action == 'Close Window':
-        dict[gesture] = close_window
-    
-    elif action == 'Maximize Window':
-        dict[gesture] = maximize_window
 
     elif action == 'Display All Apps':
         dict[gesture] = display_all_apps

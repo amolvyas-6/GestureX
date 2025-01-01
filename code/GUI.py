@@ -89,22 +89,19 @@ def listing(menu, labeling):
     else:
         lst.append(selected)
         labeling.configure(text = 'Allowed')
-        my_progressbar.set(round(my_progressbar.get()+0.1, 1))
+        my_progressbar.set(round(my_progressbar.get()+7/100, 1))
         progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
     if(len(lst) == 9):
         Submit.place(relx=0.5, rely=0.9, anchor="center")
 
 #main page
 #gestures to select from
-gestures = ['Three Finger Swipe Up'
+gestures = ['Three Finger Swipe Up',
 'Two Finger Swipe Up',
 'Three Finger Swipe Left',
 'Three Finger Swipe Right',
 'Make Fist',
-'Hand Swipe',
-'1 finger static',
-'2 finger static',
-'3 finger static']
+'Hand Swipe']
 
 scrollable_frame = customtkinter.CTkScrollableFrame(root, width=500, height= 350)
 scrollable_frame.pack(pady=20, padx=20)  # Use pack to make it scrollable
@@ -165,32 +162,6 @@ option6_label.grid(row=5, column=0, padx=(10, 5), pady=10)
 options6.grid(row=5, column=1, padx=(5, 10), pady=10)
 option6_status_label.grid(row=5, column=2, padx=(5, 10), pady=10)
 
-# Option 7
-option7_label = customtkinter.CTkLabel(scrollable_frame, text="Choose: ")
-options7 = customtkinter.CTkOptionMenu(scrollable_frame, values=gestures, command=lambda value: listing(options7, option7_label))
-option7_status_label = customtkinter.CTkLabel(scrollable_frame, text = "Maximise the current window")
-options7.set("Please Select your gesture!")
-option7_label.grid(row=6, column=0, padx=(10, 5), pady=10)
-options7.grid(row=6, column=1, padx=(5, 10), pady=10)
-option7_status_label.grid(row=6, column=2, padx=(5, 10), pady=10)
-
-# Option 8
-option8_label = customtkinter.CTkLabel(scrollable_frame, text="Choose: ")
-options8 = customtkinter.CTkOptionMenu(scrollable_frame, values=gestures, command=lambda value: listing(options8, option8_label))
-option8_status_label = customtkinter.CTkLabel(scrollable_frame, text = "To Minimise current Window")
-options8.set("Please Select your gesture!")
-option8_label.grid(row=7, column=0, padx=(10, 5), pady=10)
-options8.grid(row=7, column=1, padx=(5, 10), pady=10)
-option8_status_label.grid(row=7, column=2, padx=(5, 10), pady=10)
-
-# Option 9
-option9_label = customtkinter.CTkLabel(scrollable_frame, text="Choose: ")
-options9 = customtkinter.CTkOptionMenu(scrollable_frame, values=gestures, command=lambda value: listing(options9, option9_label))
-option9_status_label = customtkinter.CTkLabel(scrollable_frame, text = "To Close current app")
-options9.set("Please Select your gesture!")
-option9_label.grid(row=8, column=0, padx=(10, 5), pady=10)
-options9.grid(row=8, column=1, padx=(5, 10), pady=10)
-option9_status_label.grid(row=8, column=2, padx=(5, 10), pady=10)
 
 
 #starting the progress bar
@@ -228,14 +199,11 @@ theme_change.place(relx=1.0, rely=1.0, anchor="se", x=-20, y=-20)
 dict = {}
 def submit():
     dict[options1.get()] = 'Display All Apps'
-    dict[options2.get()] = 'Minimise All Apps'
+    dict[options2.get()] = 'Minimize All Apps'
     dict[options3.get()] = 'Left Arrow Key'
     dict[options4.get()] = 'Right Arrow Key'
-    dict[options5.get()] = 'Play/Pause'
+    dict[options5.get()] = 'Play/Pause' 
     dict[options6.get()] = 'Switch App'
-    dict[options7.get()] = 'Maximize Window'
-    dict[options8.get()] = 'Minimize Window'
-    dict[options9.get()] = 'Close Window'
 
     #import mainProg
 
@@ -255,18 +223,12 @@ def Default():
     options4.set('Three Finger Swipe Right')
     options5.set('Make Fist')  
     options6.set('Hand Swipe')
-    options7.set('1 finger static')
-    options8.set('2 finger static')
-    options9.set('3 finger static')
     option1_label.configure(text = "Default")
     option2_label.configure(text = "Default")
     option3_label.configure(text = "Default")
     option4_label.configure(text = "Default")
     option5_label.configure(text = "Default")
     option6_label.configure(text = "Default")
-    option7_label.configure(text = "Default")
-    option8_label.configure(text = "Default")
-    option9_label.configure(text = "Default")
     Submit.place(relx=0.5, rely=0.9, anchor="center")
 
 default = customtkinter.CTkButton(root, text = "Default", command = Default)
@@ -285,18 +247,12 @@ def clear_all():
     options4.set('Please Select your gesture!')
     options5.set('Please Select your gesture!')
     options6.set('Please Select your gesture!')
-    options7.set('Please Select your gesture!')
-    options8.set('Please Select your gesture!')
-    options9.set('Please Select your gesture!')
     option1_label.configure(text = "Choose:")
     option2_label.configure(text = "Choose:")
     option3_label.configure(text = "Choose:")
     option4_label.configure(text = "Choose:")
     option5_label.configure(text = "Choose:")
     option6_label.configure(text = "Choose:")
-    option7_label.configure(text = "Choose:")
-    option8_label.configure(text = "Choose:")
-    option9_label.configure(text = "Choose:")
 
 Clear = customtkinter.CTkButton(root, text = "Clear", command = clear_all)
 Clear.place(relx=0.0, rely=1.0, anchor="sw", x=20, y=-60)
