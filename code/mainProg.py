@@ -91,6 +91,8 @@ def display_all_apps():
 
 def minimize_all_apps():
     pyautogui.hotkey('win', 'd')
+def Enter():
+    pyautogui.hotkey('enter')
 ############################################################# END OF FUNCTION DEFINITIONS #######################################################################
 
 for gesture, action in dict.items():
@@ -113,12 +115,15 @@ for gesture, action in dict.items():
     
     elif action == 'Minimize All Apps':
         dict[gesture] = minimize_all_apps
+    elif action == 'Press enter key':
+        dict[gesture] = Enter
+
 
 while True:
     success, img = cap.read()
     img = cv2.flip(img, 1)
 
-    cv2.rectangle(img, (rect_x, rect_y), (rect_x + rect_w, rect_y + rect_h), (0, 255, 0), 2)
+    #cv2.rectangle(img, (rect_x, rect_y), (rect_x + rect_w, rect_y + rect_h), (0, 255, 0), 2)
 
     img = tracker.findHands(img)
     landmarkPoints = []
@@ -152,7 +157,7 @@ while True:
 
     if len(left) > 0:
         img = tracker.drawBoundingBox(img, points=tracker.getBoundingBox(img, left), color=(0,0,255))
-        prev_frames_left, label = gg.get_prediction(left, prev_frames_left, DELAY_IN_FRAMES=40)
+        prev_frames_left, label = gg.get_prediction(left, prev_frames_left, DELAY_IN_FRAMES=25)
         if len(label) > 0:
             if label == 'One':
                 MODE = 1
@@ -201,9 +206,12 @@ while True:
             elif label == 'Three' and prev_gesture == 'Fist':
                 print("Three Finger Swipe Up")
                 dict['Three Finger Swipe Up']()
-            elif label == 'Two' and prev_gesture == 'Fist':
-                print("Two Finger Swipe Up")
-                dict['Two Finger Swipe Up']()
+            elif label == 'Fist' and prev_gesture == 'Two':
+                print("Two Finger Swipe Down")
+                dict['Two Finger Swipe Down']()
+            elif label == 'Fist' and prev_gesture == 'One':
+                print("Index finger down")
+                dict['One Finger Down']()
                 
 
             # Update previous landmarks
@@ -261,7 +269,7 @@ while True:
         
         cv2.putText(img, text, (100, 120), cv2.FONT_HERSHEY_DUPLEX, 2, (255, 0, 0), 2)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord('-'):
         break
 
     cv2.imshow('Main', img)
