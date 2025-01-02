@@ -1,33 +1,32 @@
+
 import customtkinter as ctk
 import tkinter as tk
 from tkVideoPlayer import TkinterVideo
 from tkinter import filedialog
 
-
 # File locations (same structure as before)
 VIDEOS = {
     "gesture": {
-        "gesture1": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\1.mp4",
-        "gesture2": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\2.mp4",
-        "gesture3": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\3.mp4",
-        "gesture4": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\4.mp4",
-        "gesture5": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\5.mp4",
+        "gesture1": r".\Abhyuday\Help\Gestures\1.mp4",
+        "gesture2": r".\Abhyuday\Help\Gestures\2.mp4",
+        "gesture3": r".\Abhyuday\Help\Gestures\3.mp4",
+        "gesture4": r".\Abhyuday\Help\Gestures\4.mp4",
+        "gesture5": r".\Abhyuday\Help\Gestures\5.mp4",
     },
-    "brightness": r"D:\VS Code\GestureX\Abhyuday\Help\Brightness\1.mp4",
-    "volume": r"D:\VS Code\GestureX\Abhyuday\Help\Audio\1.mp4",
-    "cursor": r"D:\VS Code\GestureX\Abhyuday\Help\Cursor\1.mp4"
+    "brightness": r".\Abhyuday\Help\Brightness\1.mp4",
+    "volume": r".\Abhyuday\Help\Audio\1.mp4",
+    "cursor": r".\Abhyuday\Help\Cursor\1.mp4"
 }
-
 
 class VideoPlayer(ctk.CTkFrame):
     """Reusable Video Player Component"""
 
-    def __init__(self, parent, video_file=None):
+    def __init__(self, parent, video_file=None, width=800, height=450):
         super().__init__(parent)
 
         # Variables
         self.video_file = video_file
-        self.vid_player = TkinterVideo(self, scaled=True, bg="black")
+        self.vid_player = TkinterVideo(self, scaled=True, bg="black", width=width, height=height)
 
         # UI Components
         self.create_widgets()
@@ -39,10 +38,6 @@ class VideoPlayer(ctk.CTkFrame):
     def create_widgets(self):
         """Create video player controls"""
         self.vid_player.pack(expand=True, fill="both", pady=10)
-
-        # Open Video Button
-        self.open_button = ctk.CTkButton(self, text="Open Video", command=self.open_video)
-        self.open_button.pack(pady=10)
 
         # Progress Slider
         self.progress_slider = ctk.CTkSlider(self, from_=-1, to=1, command=self.seek)
@@ -56,15 +51,6 @@ class VideoPlayer(ctk.CTkFrame):
         self.vid_player.bind("<<Duration>>", self.update_duration)
         self.vid_player.bind("<<SecondChanged>>", self.update_progress)
         self.vid_player.bind("<<Ended>>", self.video_ended)
-
-    def open_video(self):
-        """Open video file dialog and load video"""
-        video_file = filedialog.askopenfilename(filetypes=[
-            ('Video Files', ['*.mp4', '*.avi', '*.mov', '*.mkv', '*.gif']),
-            ('All Files', '*.*')
-        ])
-        if video_file:
-            self.load_video(video_file)
 
     def load_video(self, video_file):
         """Load video into the player"""
@@ -117,7 +103,6 @@ class VideoPlayer(ctk.CTkFrame):
         self.play_pause_button.configure(text="Play ►")
         self.progress_slider.set(0)
 
-
 class HelpWindow(ctk.CTkToplevel):
     def __init__(self):
         super().__init__()
@@ -143,15 +128,35 @@ class HelpWindow(ctk.CTkToplevel):
 
     def create_gesture_frame(self):
         """Create the gesture frame with multiple videos"""
-        frame = ctk.CTkFrame(self)
+        container = ctk.CTkFrame(self)
+
+        # Create a canvas and a scrollbar
+        canvas = tk.Canvas(container, bg="white")
+        scrollbar = ctk.CTkScrollbar(container, orientation="vertical", command=canvas.yview)
+        scrollable_frame = ctk.CTkFrame(canvas)
+
+        # Configure the canvas
+        scrollable_frame.bind(
+            "<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Pack canvas and scrollbar
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        # Add videos to the scrollable frame
         for i, (key, video_file) in enumerate(VIDEOS["gesture"].items()):
-            video_player = VideoPlayer(frame, video_file)
-            video_player.grid(row=i // 2, column=i % 2, padx=10, pady=10)
-        return frame
+            video_player = VideoPlayer(scrollable_frame, video_file, width=800, height=450)
+            video_player.pack(padx=10, pady=10, fill="x")
+
+        container.pack(fill="both", expand=True, padx=10, pady=10)
+        return container
 
     def create_video_frame(self, video_file):
         """Create a frame with a single video"""
-        frame = VideoPlayer(self, video_file)
+        frame = VideoPlayer(self, video_file, width=800, height=450)
         return frame
 
     def segment_callback(self, value):
@@ -159,7 +164,6 @@ class HelpWindow(ctk.CTkToplevel):
         for frame in self.frames.values():
             frame.pack_forget()
         self.frames[value].pack(fill="both", expand=True, padx=20, pady=20)
-
 
 class MainWindow(ctk.CTk):
     def __init__(self):
@@ -171,7 +175,6 @@ class MainWindow(ctk.CTk):
     def open_help(self):
         """Open the Help window"""
         HelpWindow()
-
 
 if __name__ == "__main__":
     app = MainWindow()
