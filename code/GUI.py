@@ -1,5 +1,6 @@
 from tkinter import *
 import customtkinter
+from Help2 import HelpWindow
 
 #CTK windows formatting
 
@@ -26,11 +27,14 @@ root.geometry(f"{window_width}x{window_height}+{x_pos}+{y_pos}")
 
 #end of CTK window formatting
 
+def open_help():
+    HelpWindow()
+
 #creating help button
 help_but = customtkinter.CTkButton(root, text='Help',
                          fg_color='grey', text_color='black', height=35,
                          width=100, font=('Segoe UI', 20),
-                         hover_color='light blue', corner_radius=10000, border_width=1)
+                         hover_color='light blue', corner_radius=10000, border_width=1, command=open_help)
 help_but.place(relx=1.0, rely=0.0, anchor="ne", x=-20, y=20)  # Move to top-right corner
 
 #end of help button
