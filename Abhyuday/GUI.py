@@ -241,6 +241,7 @@ def submit():
     dict[options7.get()] = 'Maximise the current window'
     dict[options8.get()] = 'To Minimise current Window'
     dict[options9.get()] = 'To Close current app'
+    root.destroy()
 
 Submit = customtkinter.CTkButton(root, text = "Submit", command = submit)
 Submit.place(relx=0.5, rely=0.9, anchor="center")
