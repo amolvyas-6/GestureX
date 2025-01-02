@@ -6,30 +6,30 @@ from PIL import Image, ImageTk
 
 VIDEOS = {
     "gesture": {
-        "gesture1": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\1.mp4",
-        "gesture2": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\2.mp4",
-        "gesture3": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\3.mp4",
-        "gesture4": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\4.mp4",
-        "gesture5": r"D:\VS Code\GestureX\Abhyuday\Help\Gestures\5.mp4",
+        "gesture1": r".\Abhyuday\Help\Gestures\1.mp4",
+        "gesture2": r".\Abhyuday\Help\Gestures\2.mp4",
+        "gesture3": r".\Abhyuday\Help\Gestures\3.mp4",
+        "gesture4": r".\Abhyuday\Help\Gestures\4.mp4",
+        "gesture5": r".\Abhyuday\Help\Gestures\5.mp4",
     },
-    "brightness": r"D:\VS Code\GestureX\Abhyuday\Help\Brightness\1.mp4",
-    "volume": r"D:\VS Code\GestureX\Abhyuday\Help\Audio\1.mp4",
-    "cursor": r"D:\VS Code\GestureX\Abhyuday\Help\Cursor\1.mp4",
+    "brightness": r".\Abhyuday\Help\Brightness\1.mp4",
+    "volume": r".\Abhyuday\Help\Audio\1.mp4",
+    "cursor": r".\Abhyuday\Help\Cursor\1.mp4",
 }
 
 # Generate all 26 letters for ASL
 SIGN_LANGUAGE_IMAGES = [
-    {"path": fr"D:\VS Code\GestureX\Abhyuday\Help\ASL\{chr(65+i)}.jpg", "label": f"Sign {chr(65+i)}"}
+    {"path": fr".\Abhyuday\Help\ASL\{chr(65+i)}.jpg", "label": f"Sign {chr(65+i)}"}
     for i in range(26)
 ]
 
 # Mode images with their labels
 MODE_IMAGES = [
-    {"path": r"D:\VS Code\GestureX\Abhyuday\Help\Modes\1.jpg", "label": "Gesture"},
-    {"path": r"D:\VS Code\GestureX\Abhyuday\Help\Modes\2.jpg", "label": "Brightness"},
-    {"path": r"D:\VS Code\GestureX\Abhyuday\Help\Modes\3.jpg", "label": "Volume"},
-    {"path": r"D:\VS Code\GestureX\Abhyuday\Help\Modes\4.jpg", "label": "Cursor"},
-    {"path": r"D:\VS Code\GestureX\Abhyuday\Help\Modes\5.jpg", "label": "Sign Language"},
+    {"path": r".\Abhyuday\Help\Modes\1.jpg", "label": "Gesture"},
+    {"path": r".\Abhyuday\Help\Modes\2.jpg", "label": "Brightness"},
+    {"path": r".\Abhyuday\Help\Modes\3.jpg", "label": "Volume"},
+    {"path": r".\Abhyuday\Help\Modes\4.jpg", "label": "Cursor"},
+    {"path": r".\Abhyuday\Help\Modes\5.jpg", "label": "Sign Language"},
 ]
 
 class VideoPlayer(ctk.CTkFrame):
