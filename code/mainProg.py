@@ -222,14 +222,14 @@ while True:
 
     elif MODE == 2:
         cv2.putText(img, 'BRIGHTNESS', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
-        if is_hand_inside_rectangle(right, rect_x - 50, rect_y - 50, rect_w - 50, rect_h - 50):
+        if is_hand_inside_rectangle(right, rect_x + 50, rect_y + 50, rect_w - 50, rect_h - 50):
             img = set_brightness(img, right, tracker)
     
     
     
     elif MODE == 3:
         cv2.putText(img, 'VOLUME', (100, 60), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2, color=(0, 0, 255), thickness=2)
-        if is_hand_inside_rectangle(right, rect_x - 50, rect_y - 50, rect_w - 50, rect_h - 50):
+        if is_hand_inside_rectangle(right, rect_x + 50, rect_y + 50, rect_w - 50, rect_h - 50):
             img, volumePrev = set_volume(img, right, tracker, volumePrev)
     
 
