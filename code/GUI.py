@@ -12,6 +12,8 @@ customtkinter.set_default_color_theme("green")
 root = customtkinter.CTk()
 
 root.title("Hand Recognition System for the future")
+root.resizable(False, False)
+root.protocol("WM_DELETE_WINDOW", root)
 
 window_width = 1000
 window_height = 700# Get the screen width and height
@@ -42,11 +44,11 @@ help_but.place(relx=1.0, rely=0.0, anchor="ne", x=-20, y=20)  # Move to top-righ
 
 #making of ASl help button
 
-Asl_help = customtkinter.CTkButton(root, text="ASL Help",
-                                   fg_color='grey', text_color='black', height=36,
-                         width=100, font=('Segoe UI', 20),
-                         hover_color='light blue', corner_radius=10000, border_width=1)
-Asl_help.place(relx=0.0, rely=0.0, anchor="nw", x=20, y=20) 
+# Asl_help = customtkinter.CTkButton(root, text="ASL Help",
+#                                    fg_color='grey', text_color='black', height=36,
+#                          width=100, font=('Segoe UI', 20),
+#                          hover_color='light blue', corner_radius=10000, border_width=1)
+# Asl_help.place(relx=0.0, rely=0.0, anchor="nw", x=20, y=20) 
 
 #making Intro page
 greeting = ""
@@ -57,7 +59,7 @@ def clear_all():
     my_entry.pack_forget()
     my_label = customtkinter.CTkLabel(root, text = f"Hello, {greeting},Welcome to the future of input peripherals!\n Please Map your Action with your choice of gestures.\n Hint: Don't assign them same gestures :) ", font = ("helevetice", 18, 'italic'))
     my_label.pack(pady = 20)
-    my_progressbar.set(my_progressbar.get() + 0.1)
+    my_progressbar.set(my_progressbar.get() + 0.125)
     progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
 
 def show_submit_button(event = None):
@@ -93,9 +95,9 @@ def listing(menu, labeling):
     else:
         lst.append(selected)
         labeling.configure(text = 'Allowed')
-        my_progressbar.set(round(my_progressbar.get()+7/100, 1))
+        my_progressbar.set(my_progressbar.get()+0.125)
         progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
-    if(len(lst) == 9):
+    if(len(lst) == 7):
         Submit.place(relx=0.5, rely=0.9, anchor="center")
 
 #main page
@@ -218,7 +220,7 @@ def submit():
     dict[options5.get()] = 'Play/Pause' 
     dict[options6.get()] = 'Switch App'
     dict[options7.get()] = 'Press enter key'
-
+    root.destroy()
     #import mainProg
 
 Submit = customtkinter.CTkButton(root, text = "Submit", command = submit)
@@ -253,8 +255,9 @@ default.place(relx=0.0, rely=1.0, anchor="sw", x=20, y=-20)
 def clear_all():
     global dict
     dict = {}
+    global lst
     lst = []
-    my_progressbar.set(0.1)
+    my_progressbar.set(0.125)
     progress_label.configure(text = f'Progress: {my_progressbar.get()*100}%')
     Submit.place_forget()
     options1.set('Please Select your gesture!')
